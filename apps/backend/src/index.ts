@@ -14,10 +14,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://blogify-m8cjt8phn-fahadcs2029-3054s-projects.vercel.app",
-    ],
+   origin: [
+  "http://localhost:5173",
+  "https://blogify-m8cjt8phn-fahadcs2029-3054s-projects.vercel.app",
+  "https://blogify-coral-omega.vercel.app",
+],
   })
 );
 app.use(express.json());
