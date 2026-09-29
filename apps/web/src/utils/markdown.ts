@@ -41,7 +41,7 @@ export const htmlToMarkdown = (html: string): string => {
     const tag = el.tagName.toLowerCase();
 
     const children = (pre = inPre) =>
-      [...el.childNodes].map((c) => walk(c, listDepth, pre)).join("");
+      Array.from(el.childNodes).map((c) => walk(c, listDepth, pre)).join("");
 
     switch (tag) {
       case "br":
@@ -119,13 +119,13 @@ export const htmlToMarkdown = (html: string): string => {
       case "ol": {
         const ordered = tag === "ol";
         const start = Number(el.getAttribute("start") ?? 1) || 1;
-        const items = [...el.children]
+        const items = Array.from(el.children)
           .filter((c) => c.tagName.toLowerCase() === "li")
           .map((li, i) => {
             const marker = ordered ? `${start + i}.` : "-";
             // A checkbox task item round-trips back through the importer.
             const box = li.querySelector('input[type="checkbox"]');
-            const body = [...li.childNodes].map((c) => walk(c, listDepth + 1, inPre)).join("").trim();
+            const body = Array.from(li.childNodes).map((c) => walk(c, listDepth + 1, inPre)).join("").trim();
             const prefix = box ? `- [${(box as HTMLInputElement).checked ? "x" : " "}]` : `${marker} `;
             const indent = "  ".repeat(listDepth);
             return `${indent}${prefix}${body}`;
@@ -142,7 +142,7 @@ export const htmlToMarkdown = (html: string): string => {
     }
   };
 
-  return [...root.childNodes]
+  return Array.from(root.childNodes)
     .map((n) => walk(n, 0, false))
     .join("")
     .replace(/\n{3,}/g, "\n\n")
